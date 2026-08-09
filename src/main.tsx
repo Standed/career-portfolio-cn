@@ -31,8 +31,13 @@ setMeta('property', 'og:locale', seo.locale)
 setMeta('name', 'twitter:card', seo.twitterCard)
 
 if (isVerifiedField(seo.siteUrl)) {
-  const canonicalUrl = new URL(seo.canonicalPath, seo.siteUrl.value).toString()
-  const imageUrl = new URL(seo.ogImage.src, seo.siteUrl.value).toString()
+  const siteRoot = seo.siteUrl.value.endsWith('/')
+    ? seo.siteUrl.value
+    : `${seo.siteUrl.value}/`
+  const canonicalPath = seo.canonicalPath === '/' ? '' : seo.canonicalPath
+  const imagePath = seo.ogImage.src.replace(/^\/+/, '')
+  const canonicalUrl = new URL(canonicalPath, siteRoot).toString()
+  const imageUrl = new URL(imagePath, siteRoot).toString()
   let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
   if (!canonical) {
     canonical = document.createElement('link')
