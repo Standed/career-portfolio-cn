@@ -1,0 +1,72 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Find the Vite app
+        id: app
+        shell: bash
+        run: |
+          if [[ -f package.json ]]; then
+            echo "dir=." >> "$GITHUB_OUTPUT"
+          elif [[ -f portfolio-site/package.json ]]; then
+            echo "dir=portfolio-site" >> "$GITHUB_OUTPUT"
+          else
+            echo "Could not find package.json at the repository root or portfolio-site/." >&2
+            exit 1
+          fi
+
+      - name: Install dependencies
+        working-directory: ${{ steps.app.outputs.dir }}
+        run: npm install
+
+      - name: Lint
+        working-directory: ${{ steps.app.outputs.dir }}
+        run: npm run lint
+
+      - name: Build for GitHub Pages
+        working-directory: ${{ steps.app.outputs.dir }}
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+        run: npm run build:pages
+
+      - name: Verify public release
+        working-directory: ${{ steps.app.outputs.dir }}
+        run: npm run release:check
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.app.outputs.dir }}/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

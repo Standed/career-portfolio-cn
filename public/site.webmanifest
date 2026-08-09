@@ -1,0 +1,11 @@
+{
+  "name": "中文求职作品集",
+  "short_name": "求职作品集",
+  "description": "低门槛中文简历与求职作品集模板",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080c0e",
+  "theme_color": "#c8eb36"
+}

@@ -1,0 +1,150 @@
+import type {
+  CareerPresetConfig,
+  CareerPresetKey,
+  ProjectNarrativeLabels,
+  ThemeKey,
+  ThemeConfig,
+} from '../types/portfolio'
+
+export const careerPresetNarratives = {
+  studio: {
+    context: 'Brief',
+    role: 'My role',
+    process: 'System',
+    outcome: 'Outcome',
+  },
+  cinema: {
+    context: 'Treatment',
+    role: 'Credits',
+    process: 'Cut',
+    outcome: 'Delivery',
+  },
+  product: {
+    context: 'Context',
+    role: 'Decision',
+    process: 'Tradeoff',
+    outcome: 'Impact',
+  },
+  editorial: {
+    context: 'Goal',
+    role: 'Strategy',
+    process: 'Execution',
+    outcome: 'Result',
+  },
+} as const satisfies Record<CareerPresetKey, ProjectNarrativeLabels>
+
+export const careerPresets = {
+  studio: {
+    id: 'studio',
+    name: '创意工作室',
+    audience: '设计师、创意岗位与自由职业者',
+    projectNarrativeLabels: careerPresetNarratives.studio,
+  },
+  cinema: {
+    id: 'cinema',
+    name: '影视制作',
+    audience: '导演、剪辑、制片与视频内容岗位',
+    projectNarrativeLabels: careerPresetNarratives.cinema,
+  },
+  product: {
+    id: 'product',
+    name: '产品案例',
+    audience: '产品经理、用户研究与项目岗位',
+    projectNarrativeLabels: careerPresetNarratives.product,
+  },
+  editorial: {
+    id: 'editorial',
+    name: '内容运营',
+    audience: '内容、品牌、市场与运营岗位',
+    projectNarrativeLabels: careerPresetNarratives.editorial,
+  },
+} as const satisfies Record<CareerPresetKey, CareerPresetConfig>
+
+type ThemePreset = Omit<ThemeConfig, 'careerPreset'>
+
+export const themePresets = {
+  studio: {
+    id: 'studio',
+    name: '冷白工作室',
+    description: '冷白画廊、近黑文字与 ultramarine 强调，配合响应式动态排版。',
+    colorMode: 'light',
+    layoutStyle: 'gallery',
+    motionStyle: 'kinetic',
+    tokens: {
+      background: '#f4f6f8',
+      surface: '#ffffff',
+      text: '#090b10',
+      mutedText: '#59616d',
+      accent: '#2447f9',
+      accentText: '#ffffff',
+      border: '#d6dce5',
+      displayFont: '"Space Grotesk", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
+      bodyFont: '"IBM Plex Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
+      radius: '2px',
+      shadow: '0 24px 70px rgba(9, 11, 16, 0.14)',
+    },
+  },
+  cinema: {
+    id: 'cinema',
+    name: '石墨片场',
+    description: 'graphite 底色、silver 文字与 chartreuse 强调，配合克制的 frame wipe。',
+    colorMode: 'dark',
+    layoutStyle: 'cinematic',
+    motionStyle: 'frame-wipe',
+    tokens: {
+      background: '#0b1013',
+      surface: '#151c20',
+      text: '#d7dce0',
+      mutedText: '#929ba1',
+      accent: '#c8d63c',
+      accentText: '#0a0e0a',
+      border: '#364047',
+      displayFont: '"Manrope", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
+      bodyFont: '"IBM Plex Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
+      radius: '0px',
+      shadow: '0 28px 90px rgba(0, 0, 0, 0.48)',
+    },
+  },
+  product: {
+    id: 'product',
+    name: '冷银产品',
+    description: 'cool silver 底色、charcoal 信息层级与 deep emerald 决策路径。',
+    colorMode: 'light',
+    layoutStyle: 'system',
+    motionStyle: 'decision-path',
+    tokens: {
+      background: '#eef2f3',
+      surface: '#ffffff',
+      text: '#17201f',
+      mutedText: '#5d6966',
+      accent: '#09664f',
+      accentText: '#ffffff',
+      border: '#cdd7d4',
+      displayFont: '"IBM Plex Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
+      bodyFont: '"IBM Plex Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
+      radius: '8px',
+      shadow: '0 18px 50px rgba(23, 32, 31, 0.10)',
+    },
+  },
+  editorial: {
+    id: 'editorial',
+    name: '纸上编辑部',
+    description: 'true paper white、ink 与 burnt orange，配合杂志式 page mask。',
+    colorMode: 'light',
+    layoutStyle: 'magazine',
+    motionStyle: 'page-mask',
+    tokens: {
+      background: '#ffffff',
+      surface: '#faf8f3',
+      text: '#171411',
+      mutedText: '#6d655d',
+      accent: '#c54a16',
+      accentText: '#ffffff',
+      border: '#d9d2c8',
+      displayFont: '"Noto Serif SC Variable", "Source Serif 4", "Noto Serif SC", "Songti SC", STSong, SimSun, serif',
+      bodyFont: '"Source Sans 3", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif',
+      radius: '0px',
+      shadow: '0 16px 46px rgba(48, 39, 31, 0.10)',
+    },
+  },
+} as const satisfies Record<ThemeKey, ThemePreset>
