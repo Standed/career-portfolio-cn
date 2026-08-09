@@ -165,7 +165,7 @@ export const profileConfig = {
   seo: {
     description:
       '中文作品集，展示 AI 短剧、内容知识库与视频素材工作流，以及从问题定义到交付复盘的制作方法。',
-    siteUrl: null,
+    siteUrl: 'https://standed.github.io/career-portfolio-cn/',
   },
 } as const satisfies EditablePortfolioProfile
 

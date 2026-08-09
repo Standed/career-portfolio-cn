@@ -41,6 +41,13 @@ jobs:
         working-directory: ${{ steps.app.outputs.dir }}
         run: npm install
 
+      - name: Ensure the Linux Rollup binary is present
+        working-directory: ${{ steps.app.outputs.dir }}
+        shell: bash
+        run: |
+          ROLLUP_VERSION="$(node -p "require('rollup/package.json').version")"
+          npm install --no-save --no-package-lock "@rollup/rollup-linux-x64-gnu@${ROLLUP_VERSION}"
+
       - name: Lint
         working-directory: ${{ steps.app.outputs.dir }}
         run: npm run lint

@@ -4,6 +4,9 @@
 
 不需要先学 React。你可以直接在 GitHub 网页上改文字，再交给 Vercel 自动部署。
 
+- [在线体验](https://standed.github.io/career-portfolio-cn/)
+- [开源仓库](https://github.com/Standed/career-portfolio-cn)
+
 ## 四套职业主题
 
 同一份项目内容可以切换四种构图。Studio 面向设计与创意，Cinema 面向影视与动效，Product 面向产品与研究，Editorial 面向内容、品牌和运营。
@@ -187,7 +190,7 @@ npm run preview
 
 ## SEO 与域名
 
-正式域名确定前，`profile.ts` 中的 `seo.siteUrl` 保持 `null`，不能填写示例域名。Vercel 正式域名确认后：
+正式域名确定前，`profile.ts` 中的 `seo.siteUrl` 保持 `null`，不能填写示例域名。正式域名确认后：
 
 1. 填写完整的 `https://` 地址。
 2. 检查页面标题、描述、canonical URL 和 OG 分享图。
@@ -212,9 +215,9 @@ npm run preview
 
 `vercel.json` 已配置单页应用回退，直接访问页面内路径时会返回 `index.html`。当前模板不需要环境变量，也不应该提交 Vercel Token、邮箱密码或其他密钥。
 
-### GitHub Pages（可选）
+### GitHub Pages
 
-仓库根目录的 `.github/workflows/deploy-pages.yml` 会在 `main` 分支更新时自动执行：安装依赖、`lint`、通过 `build:pages` 以 `/<仓库名>/` 为基础路径构建、发布前检查，再部署 `dist`。如果这个模板在单仓库的 `portfolio-site/` 子目录中，工作流也会自动找到它。首次启用时，请在 GitHub 的 **Settings → Pages → Build and deployment** 选择 **GitHub Actions**。
+当前示例站点发布在 [GitHub Pages](https://standed.github.io/career-portfolio-cn/)。仓库根目录的 `.github/workflows/deploy-pages.yml` 会在 `main` 分支更新时自动执行：安装依赖、`lint`、通过 `build:pages` 以 `/<仓库名>/` 为基础路径构建、发布前检查，再部署 `dist`。如果这个模板在单仓库的 `portfolio-site/` 子目录中，工作流也会自动找到它。首次启用时，请在 GitHub 的 **Settings → Pages → Build and deployment** 选择 **GitHub Actions**。
 
 Vercel 不受影响：它仍使用默认根路径 `/` 构建。不要把 Pages 的仓库名路径写死到 `vite.config.ts`。
 
