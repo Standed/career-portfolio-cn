@@ -137,14 +137,16 @@ export function SelectedWork({ theme, id, title, pendingLabel, narrativeLabels, 
     <section className="work-section studio-work" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
         <Reveal className="studio-work-heading"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
-        <div className="studio-project-grid">
+        <div className="studio-work-list">
           {projects.map((project, index) => (
-            <Reveal className={index === 0 ? 'studio-project studio-project-lead' : 'studio-project'} delay={index * 0.04} key={project.slug}>
-              <article>
-                <ProjectImage project={project} />
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-category">{project.category}</p>
-                <p className="project-summary">{project.summary}</p>
+            <Reveal delay={index * 0.06} key={project.slug}>
+              <article className="studio-project-row">
+                <span className="project-index">{project.index}</span>
+                <div className="project-body">
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-category">{project.category}</p>
+                  <p className="project-summary">{project.summary}</p>
+                </div>
                 <DetailButton project={project} onOpen={setActiveProject} />
               </article>
             </Reveal>
