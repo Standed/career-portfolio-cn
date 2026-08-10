@@ -61,8 +61,8 @@ export function ProjectDialog({ project, pendingLabel, narrativeLabels, onClose 
         <div className="dialog-shell">
           <header className="dialog-header">
             <div>
+              <p className="dialog-kicker">{project.category}</p>
               <h2 id={`dialog-title-${project.slug}`}>{project.title}</h2>
-              <p>{project.category}</p>
             </div>
             <button className="dialog-close" type="button" aria-label="关闭项目详情" onClick={onClose}>
               <X size={22} aria-hidden="true" />

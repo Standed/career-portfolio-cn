@@ -42,6 +42,7 @@ function App() {
           media={content.hero.media}
           supportingMedia={[content.processSection.media, content.contact.media]}
           process={content.process}
+          descriptor={content.brand.descriptor}
         />
         <SelectedWork
           theme={activeTheme}
@@ -63,7 +64,6 @@ function App() {
           id={content.capabilitiesSection.id}
           title={content.capabilitiesSection.title}
           groups={content.capabilities}
-          media={content.processSection.media}
         />
         <ContactFooter
           id={content.contact.id}

@@ -1,0 +1,124 @@
+@layer components {
+  .project-dialog {
+    width: min(100% - 2.5rem, 68rem);
+    max-height: min(88dvh, 56rem);
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    color: var(--theme-text);
+    background: var(--theme-surface);
+    border: var(--hairline);
+    border-radius: var(--theme-radius);
+    box-shadow: var(--theme-shadow);
+  }
+  .project-dialog::backdrop {
+    background: color-mix(in srgb, var(--theme-background) 62%, rgb(5 8 10 / 0.55));
+    backdrop-filter: blur(8px);
+  }
+  .dialog-shell { max-height: inherit; overflow-y: auto; overscroll-behavior: contain; }
+
+  .dialog-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: clamp(1.25rem, 3.5vw, 2.5rem);
+    background: color-mix(in srgb, var(--theme-surface) 92%, transparent);
+    border-bottom: var(--hairline);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .dialog-header .dialog-kicker {
+    font-family: var(--font-mono);
+    font-size: var(--fs-12);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--theme-accent);
+  }
+  .dialog-header h2 {
+    margin-top: 0.5rem;
+    font-family: var(--theme-display-font);
+    font-size: clamp(1.75rem, 3.6vw, 3rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .dialog-close {
+    flex: 0 0 auto;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: grid;
+    place-items: center;
+    color: var(--theme-text);
+    background: transparent;
+    border: var(--hairline);
+    border-radius: var(--theme-radius);
+    cursor: pointer;
+    transition: border-color var(--duration-micro) ease, background-color var(--duration-micro) ease, transform var(--duration-micro) ease;
+  }
+  .dialog-close:hover { border-color: var(--theme-accent); background: var(--accent-08); }
+  .dialog-close:active { transform: scale(0.94); }
+
+  .dialog-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(14rem, 0.7fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    padding: clamp(1.25rem, 3.5vw, 2.5rem);
+  }
+  .dialog-section + .dialog-section { margin-top: 2rem; padding-top: 1.75rem; border-top: var(--hairline); }
+  .dialog-section:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+  .dialog-label {
+    margin-bottom: 0.6rem;
+    font-family: var(--font-mono);
+    color: var(--theme-accent);
+    font-size: var(--fs-12);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .dialog-section p, .dialog-list { color: var(--text-soft); line-height: 1.75; text-wrap: pretty; }
+  .dialog-list { display: grid; gap: 0.55rem; }
+  .dialog-list li { position: relative; padding-left: 1.1rem; }
+  .dialog-list li::before {
+    position: absolute;
+    top: 0.78em;
+    left: 0;
+    width: 0.45rem;
+    height: 1px;
+    content: "";
+    background: var(--theme-accent);
+  }
+  .dialog-metric { padding: 1rem 0; border-top: var(--hairline); }
+  .dialog-metric strong, .dialog-metric span { display: block; }
+  .dialog-metric strong {
+    font-family: var(--theme-display-font);
+    color: var(--theme-accent);
+    font-size: var(--fs-32);
+    line-height: 1.1;
+  }
+  .dialog-metric span { margin-top: 0.3rem; color: var(--text-soft); font-size: var(--fs-14); }
+  .pending-note {
+    padding: 0.85rem 1rem;
+    color: var(--text-soft);
+    background: var(--accent-08);
+    border-left: 2px solid var(--theme-accent);
+    font-size: var(--fs-14);
+  }
+
+  @media (max-width: 640px) {
+    .project-dialog {
+      width: 100%;
+      max-height: calc(100dvh - 2rem);
+      margin: auto 0 0;
+      border-right: 0;
+      border-bottom: 0;
+      border-left: 0;
+      border-radius: var(--theme-radius) var(--theme-radius) 0 0;
+    }
+    .dialog-body { grid-template-columns: 1fr; gap: 0; }
+    .dialog-body aside { margin-top: 2rem; }
+  }
+}

@@ -1,0 +1,152 @@
+@layer components {
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: var(--header-height);
+    color: var(--theme-text);
+    background: color-mix(in srgb, var(--theme-background) 88%, transparent);
+    border-bottom: var(--hairline);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  .header-inner {
+    width: var(--page);
+    height: 100%;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .brand-link {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--theme-display-font);
+    font-size: var(--fs-18);
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+    transition: color var(--duration-micro) ease;
+  }
+  .brand-link::before {
+    width: 0.625rem;
+    height: 0.625rem;
+    content: "";
+    background: var(--theme-accent);
+    border-radius: calc(var(--theme-radius) * 0.5);
+    transition: transform var(--duration-micro) var(--ease-snap);
+  }
+  .brand-link:hover::before { transform: rotate(45deg); }
+  .brand-link:hover { color: var(--theme-accent); }
+
+  .desktop-nav {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: clamp(1.1rem, 2.2vw, 2.25rem);
+    white-space: nowrap;
+  }
+
+  .nav-link {
+    position: relative;
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    padding-bottom: 2px;
+    color: var(--text-soft);
+    font-size: var(--fs-14);
+    background-image: linear-gradient(var(--theme-accent), var(--theme-accent));
+    background-repeat: no-repeat;
+    background-position: 50% calc(100% - 0.5rem);
+    background-size: 0% 1.5px;
+    transition: color var(--duration-micro) ease, background-size var(--duration-fluid) var(--ease-snap);
+  }
+  .nav-link:hover, .nav-link:focus-visible { color: var(--theme-text); background-size: 100% 1.5px; }
+
+  .desktop-theme-switcher { justify-self: end; }
+
+  .theme-switcher {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.3rem 0 0.75rem;
+    color: var(--text-soft);
+    background: color-mix(in srgb, var(--theme-surface) 72%, transparent);
+    border: var(--hairline);
+    border-radius: var(--theme-radius);
+    transition: border-color var(--duration-micro) ease, box-shadow var(--duration-micro) ease;
+  }
+  .theme-switcher:hover { border-color: var(--accent-40); }
+  .theme-switcher:focus-within { box-shadow: 0 0 0 3px var(--accent-14); border-color: var(--accent-40); }
+  .theme-switcher-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .theme-switcher select {
+    min-width: 6.6rem;
+    min-height: 2.75rem;
+    padding: 0 1.35rem 0 0.3rem;
+    color: var(--theme-text);
+    background: transparent;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%23888f99' stroke-width='1.5' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.35rem center;
+    border: 0;
+    appearance: none;
+    font-size: var(--fs-14);
+    cursor: pointer;
+  }
+  .theme-switcher option { color: #151719; background: #ffffff; }
+
+  .menu-button {
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    padding: 0;
+    color: var(--theme-text);
+    background: var(--theme-surface);
+    border: var(--hairline);
+    border-radius: var(--theme-radius);
+    cursor: pointer;
+    transition: background-color var(--duration-micro) ease, transform var(--duration-micro) ease;
+  }
+  .menu-button:hover { background: color-mix(in srgb, var(--theme-border) 40%, var(--theme-surface)); }
+  .menu-button:active { transform: scale(0.94); }
+
+  .mobile-nav {
+    position: absolute;
+    inset: 100% 0 auto;
+    padding: 0.5rem clamp(1rem, 4vw, 2rem) 1.25rem;
+    background: var(--theme-background);
+    border-bottom: var(--hairline);
+  }
+  .mobile-nav-list { display: grid; }
+  .mobile-nav .nav-link { background: none; border-bottom: var(--hairline); font-size: var(--fs-16); }
+  .mobile-nav .theme-switcher { margin-top: 1rem; width: 100%; justify-content: space-between; }
+
+  @media (max-width: 1050px) {
+    .desktop-nav { gap: 1rem; }
+    .theme-switcher-label { display: none; }
+  }
+
+  @media (max-width: 820px) {
+    .header-inner { grid-template-columns: 1fr auto; }
+    .desktop-nav, .desktop-theme-switcher { display: none; }
+    .menu-button { display: grid; }
+  }
+
+  @media (max-width: 520px) {
+    :root { --header-height: 3.75rem; }
+    .theme-switcher-label { display: inline; }
+  }
+}
