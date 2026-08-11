@@ -62,10 +62,10 @@
   .cinema-hero .hero-title {
     margin-top: 1.35rem;
     max-width: none;
-    font-size: clamp(2.5rem, 4.6vw, 4.6rem);
+    font-size: clamp(2.75rem, 6.4vw, 6.75rem);
     font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: 0.004em;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
   }
   .cinema-hero .hero-summary { margin-top: 1.5rem; max-width: 33rem; font-size: var(--fs-18); }
   .cinema-hero .hero-actions { margin-top: 2.1rem; display: flex; flex-wrap: wrap; gap: 0.8rem; }

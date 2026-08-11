@@ -1,6 +1,8 @@
 import { ArrowRight } from '@phosphor-icons/react'
 import { motion, useReducedMotion } from 'motion/react'
 import type { LinkAction, MediaAsset, ProcessStep, ThemeKey } from '../types/portfolio'
+import { Magnetic } from './Magnetic'
+import { useParallaxY } from './Parallax'
 
 type HeroProps = {
   theme: ThemeKey
@@ -69,19 +71,46 @@ function takeLeadingWord(text: string) {
   }
 }
 
-function WrappedWords({ text }: { text: string }) {
+function KineticWord({ word, delay }: { word: string; delay: number }) {
+  const reduceMotion = useReducedMotion()
+  return (
+    <span className="hero-word">
+      <motion.span
+        className="hero-word-inner"
+        initial={reduceMotion ? false : { y: '118%', rotate: 3 }}
+        animate={{ y: '0%', rotate: 0 }}
+        transition={{ duration: reduceMotion ? 0 : 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {word}
+      </motion.span>
+    </span>
+  )
+}
+
+function WrappedWords({ text, delayOffset = 0 }: { text: string; delayOffset?: number }) {
   return segmentTitleWords(text).map((word, index) => (
-    <span className="hero-word" key={`${word}-${index}`}>{word}</span>
+    <KineticWord word={word} delay={0.15 + (delayOffset + index) * 0.05} key={`${word}-${index}`} />
   ))
 }
 
 function HeroTitle({ title, className }: { title: HeroProps['title']; className?: string }) {
+  const reduceMotion = useReducedMotion()
   const { lead: suffixLead, rest: suffixRest } = takeLeadingWord(title.suffix)
+  const prefixCount = segmentTitleWords(title.prefix).length
   return (
     <h1 className={className ?? 'hero-title'} id="hero-title">
       <WrappedWords text={title.prefix} />
-      <span className="hero-accent-phrase"><span className="accent-text">{title.accent}</span>{suffixLead}</span>
-      <WrappedWords text={suffixRest} />
+      <span className="hero-accent-phrase hero-word">
+        <motion.span
+          className="hero-word-inner"
+          initial={reduceMotion ? false : { y: '118%', rotate: 3 }}
+          animate={{ y: '0%', rotate: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.9, delay: 0.15 + prefixCount * 0.05, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className="accent-text">{title.accent}</span>{suffixLead}
+        </motion.span>
+      </span>
+      <WrappedWords text={suffixRest} delayOffset={prefixCount + 1} />
     </h1>
   )
 }
@@ -97,10 +126,12 @@ function HeroSummary({ description }: { description: readonly string[] }) {
 function HeroAction({ primaryAction }: { primaryAction: LinkAction }) {
   return (
     <div className="hero-actions">
-      <a className="button button-primary" href={primaryAction.href}>
-        {primaryAction.label}
-        <ArrowRight size={18} weight="bold" aria-hidden="true" />
-      </a>
+      <Magnetic>
+        <a className="button button-primary" href={primaryAction.href}>
+          {primaryAction.label}
+          <ArrowRight size={18} weight="bold" aria-hidden="true" />
+        </a>
+      </Magnetic>
     </div>
   )
 }
@@ -109,6 +140,7 @@ type SubHeroProps = Omit<HeroProps, 'theme'>
 
 function StudioHero({ title, description, primaryAction, media, process, descriptor }: SubHeroProps) {
   const reduceMotion = useReducedMotion()
+  const parallax = useParallaxY(6)
   return (
     <section className="hero-section studio-hero" id="top" aria-labelledby="hero-title">
       <div className="studio-hero-shell">
@@ -141,12 +173,20 @@ function StudioHero({ title, description, primaryAction, media, process, descrip
           </motion.div>
           <div className="studio-hero-media">
             <motion.figure
+              ref={parallax.ref}
               className="media-frame"
               initial={reduceMotion ? false : { clipPath: 'inset(0 100% 0 0)' }}
               animate={{ clipPath: 'inset(0 0% 0 0)' }}
               transition={{ duration: reduceMotion ? 0 : 0.9, delay: reduceMotion ? 0 : 0.15, ease: [0.76, 0, 0.24, 1] }}
             >
-              <img src={media.src} alt={media.alt} width="1536" height="1024" fetchPriority="high" />
+              <motion.img
+                src={media.src}
+                alt={media.alt}
+                width="1536"
+                height="1024"
+                fetchPriority="high"
+                style={parallax.style ? { ...parallax.style, scale: 1.14 } : undefined}
+              />
             </motion.figure>
           </div>
         </div>
@@ -158,16 +198,25 @@ function StudioHero({ title, description, primaryAction, media, process, descrip
 function CinemaHero({ title, description, primaryAction, media, supportingMedia, descriptor }: SubHeroProps) {
   const reduceMotion = useReducedMotion()
   const allMedia = [media, ...supportingMedia]
+  const parallax = useParallaxY(5)
 
   return (
     <section className="hero-section cinema-hero" id="top" aria-labelledby="hero-title">
       <motion.figure
+        ref={parallax.ref}
         className="cinema-hero-media"
         initial={reduceMotion ? false : { clipPath: 'inset(0 0 0 100%)' }}
         animate={{ clipPath: 'inset(0 0 0 0%)' }}
         transition={{ duration: reduceMotion ? 0 : 0.95, ease: [0.76, 0, 0.24, 1] }}
       >
-        <img src={media.src} alt={media.alt} width="1536" height="1024" fetchPriority="high" />
+        <motion.img
+          src={media.src}
+          alt={media.alt}
+          width="1536"
+          height="1024"
+          fetchPriority="high"
+          style={parallax.style ? { ...parallax.style, scale: 1.12 } : undefined}
+        />
       </motion.figure>
       {reduceMotion ? null : (
         <motion.span

@@ -37,7 +37,7 @@
     --fs-32: clamp(1.625rem, 1.3rem + 1.3vw, 2rem);
     --fs-48: clamp(2.125rem, 1.55rem + 2.4vw, 3rem);
     --fs-72: clamp(2.625rem, 1.65rem + 4.1vw, 4.5rem);
-    --fs-hero: clamp(2.75rem, 1.3rem + 6.1vw, 7.25rem);
+    --fs-hero: clamp(3rem, 1rem + 7.6vw, 9rem);
 
     /* Layout */
     --header-height: 4rem;
@@ -155,6 +155,9 @@
 
   /* Buttons: three states + focus ring, one radius system. */
   .button {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     min-height: 3rem;
     display: inline-flex;
     align-items: center;
@@ -186,9 +189,19 @@
     background: var(--theme-accent);
   }
   .button-primary:hover {
-    background: color-mix(in srgb, var(--theme-accent) 88%, var(--theme-text));
-    border-color: color-mix(in srgb, var(--theme-accent) 88%, var(--theme-text));
+    background: var(--theme-accent);
+    border-color: var(--theme-accent);
   }
+  .button-primary::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background: var(--theme-text);
+    transform: translateY(102%);
+    transition: transform 0.45s var(--ease-snap);
+  }
+  .button-primary:hover::before { transform: translateY(0); }
 
   .button-ghost {
     color: var(--theme-text);
@@ -262,5 +275,139 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
     }
+  }
+}
+
+@layer base {
+  /* Lenis smooth-scroll guards */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+}
+
+@layer components {
+  /* Anchored sections clear the sticky header */
+  section[id] { scroll-margin-top: calc(var(--header-height) + 0.75rem); }
+
+  /* Kinetic hero title: per-word masks with staggered rise */
+  .hero-word {
+    display: inline-block;
+    overflow: clip;
+    vertical-align: bottom;
+    padding: 0.07em 0.05em 0.13em;
+    margin: -0.07em -0.05em -0.13em;
+  }
+  .hero-word-inner {
+    display: inline-block;
+    transform-origin: 0 100%;
+    will-change: transform;
+  }
+
+  /* Custom cursor: difference-blend dot + trailing ring */
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1003;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .cursor-ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+  }
+  @media (pointer: fine) {
+    body.has-custom-cursor,
+    body.has-custom-cursor a,
+    body.has-custom-cursor button,
+    body.has-custom-cursor select,
+    body.has-custom-cursor input,
+    body.has-custom-cursor textarea,
+    body.has-custom-cursor summary,
+    body.has-custom-cursor [role='button'] {
+      cursor: none;
+    }
+  }
+
+  /* Marquee divider between hero and work */
+  .marquee {
+    overflow: clip;
+    border-block: var(--hairline);
+    background: var(--theme-background);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 36s linear infinite;
+  }
+  .marquee-run { display: flex; align-items: center; }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.7rem;
+    padding: 0.85rem 0.85rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-12);
+    letter-spacing: 0.16em;
+    color: var(--text-soft);
+    white-space: nowrap;
+  }
+  .marquee-separator {
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--theme-accent);
+    border-radius: calc(var(--theme-radius) * 0.5);
+  }
+  @keyframes marquee-scroll {
+    to { transform: translateX(-50%); }
+  }
+
+  /* Header availability pulse */
+  .brand-status {
+    position: relative;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-left: 0.1rem;
+    border-radius: 50%;
+    background: var(--theme-accent);
+  }
+  .brand-status::after {
+    position: absolute;
+    inset: -4px;
+    content: "";
+    border: 1px solid var(--theme-accent);
+    border-radius: 50%;
+    animation: status-pulse 2.2s var(--ease-out) infinite;
+  }
+  @keyframes status-pulse {
+    0% { transform: scale(0.55); opacity: 0.9; }
+    100% { transform: scale(1.55); opacity: 0; }
+  }
+
+  /* Scroll progress hairline under the header */
+  .scroll-progress {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: var(--theme-accent);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    .brand-status::after { animation: none; opacity: 0; }
   }
 }

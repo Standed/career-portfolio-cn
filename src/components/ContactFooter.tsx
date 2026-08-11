@@ -1,6 +1,9 @@
 import { ArrowRight, EnvelopeSimple, GithubLogo, LinkSimple, WechatLogo } from '@phosphor-icons/react'
 import type { Icon } from '@phosphor-icons/react'
+import { motion } from 'motion/react'
 import type { ContactChannel, LinkAction, ManagedField, MediaAsset } from '../types/portfolio'
+import { Magnetic } from './Magnetic'
+import { useParallaxY } from './Parallax'
 import { Reveal } from './Reveal'
 
 type ContactFooterProps = {
@@ -29,6 +32,7 @@ export function ContactFooter({
   const publishedChannels = channels.filter(
     (channel) => channel.value.status === 'verified' && channel.href.status === 'verified',
   )
+  const parallax = useParallaxY<HTMLDivElement>(7)
 
   return (
     <>
@@ -41,10 +45,12 @@ export function ContactFooter({
 
               {action.status === 'verified' ? (
                 <div className="contact-actions">
-                  <a className="button button-primary" href={action.value.href}>
-                    {action.value.label}
-                    <ArrowRight size={18} weight="bold" aria-hidden="true" />
-                  </a>
+                  <Magnetic>
+                    <a className="button button-primary" href={action.value.href}>
+                      {action.value.label}
+                      <ArrowRight size={18} weight="bold" aria-hidden="true" />
+                    </a>
+                  </Magnetic>
                 </div>
               ) : null}
 
@@ -68,8 +74,15 @@ export function ContactFooter({
             </Reveal>
 
             <Reveal className="contact-media-wrap" delay={0.08} variant="wipe">
-              <div className="contact-media" aria-hidden="true">
-                <img src={media.src} alt="" loading="lazy" width="1672" height="942" />
+              <div className="contact-media" aria-hidden="true" ref={parallax.ref}>
+                <motion.img
+                  src={media.src}
+                  alt=""
+                  loading="lazy"
+                  width="1672"
+                  height="942"
+                  style={parallax.style ? { ...parallax.style, scale: 1.16 } : undefined}
+                />
               </div>
             </Reveal>
           </div>

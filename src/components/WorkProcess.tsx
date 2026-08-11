@@ -1,6 +1,7 @@
-import { motion, useReducedMotion } from 'motion/react'
+﻿import { motion, useReducedMotion } from 'motion/react'
 import type { PropsWithChildren } from 'react'
 import type { MediaAsset, ProcessStep, ThemeKey } from '../types/portfolio'
+import { useParallaxY } from './Parallax'
 import { Reveal } from './Reveal'
 
 type WorkProcessProps = {
@@ -37,6 +38,7 @@ function StepReveal({ children, delay = 0, variant = 'rise' }: PropsWithChildren
 }
 
 function StudioProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'theme'>) {
+  const parallax = useParallaxY(6)
   return (
     <section className="process-section studio-process" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell studio-process-grid">
@@ -52,8 +54,15 @@ function StudioProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'them
           </ol>
         </div>
         <Reveal className="studio-process-media" delay={0.1} variant="wipe">
-          <figure className="media-frame">
-            <img src={media.src} alt={media.alt} loading="lazy" width="1448" height="1086" />
+          <figure className="media-frame" ref={parallax.ref}>
+            <motion.img
+              src={media.src}
+              alt={media.alt}
+              loading="lazy"
+              width="1448"
+              height="1086"
+              style={parallax.style ? { ...parallax.style, scale: 1.14 } : undefined}
+            />
           </figure>
         </Reveal>
       </div>
@@ -62,14 +71,22 @@ function StudioProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'them
 }
 
 function CinemaProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'theme'>) {
+  const parallax = useParallaxY(6)
   return (
     <section className="process-section cinema-process" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
         <Reveal><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
         <div className="cinema-process-board">
           <Reveal className="cinema-process-media-wrap" variant="wipe">
-            <figure className="cinema-process-media">
-              <img src={media.src} alt={media.alt} loading="lazy" width="1448" height="1086" />
+            <figure className="cinema-process-media" ref={parallax.ref}>
+              <motion.img
+                src={media.src}
+                alt={media.alt}
+                loading="lazy"
+                width="1448"
+                height="1086"
+                style={parallax.style ? { ...parallax.style, scale: 1.14 } : undefined}
+              />
             </figure>
           </Reveal>
           <ol className="cinema-process-cuts">
@@ -88,6 +105,7 @@ function CinemaProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'them
 }
 
 function ProductProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'theme'>) {
+  const parallax = useParallaxY(6)
   return (
     <section className="process-section product-process" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
@@ -104,8 +122,15 @@ function ProductProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'the
           </ol>
         </div>
         <Reveal className="product-process-media" delay={0.08} variant="wipe">
-          <figure className="media-frame">
-            <img src={media.src} alt={media.alt} loading="lazy" width="1448" height="1086" />
+          <figure className="media-frame" ref={parallax.ref}>
+            <motion.img
+              src={media.src}
+              alt={media.alt}
+              loading="lazy"
+              width="1448"
+              height="1086"
+              style={parallax.style ? { ...parallax.style, scale: 1.14 } : undefined}
+            />
           </figure>
         </Reveal>
       </div>

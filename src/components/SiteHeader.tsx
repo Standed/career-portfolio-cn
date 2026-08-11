@@ -1,5 +1,5 @@
 import { List, X } from '@phosphor-icons/react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 'motion/react'
 import { useEffect, useState } from 'react'
 import type { NavigationItem } from '../types/portfolio'
 import type { ThemeKey } from '../types/portfolio'
@@ -15,6 +15,8 @@ type SiteHeaderProps = {
 export function SiteHeader({ brand, navigation, activeTheme, onThemeChange }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll()
+  const progressScale = useSpring(scrollYProgress, { stiffness: 140, damping: 26, mass: 0.4 })
 
   useEffect(() => {
     if (!menuOpen) return undefined
@@ -32,6 +34,7 @@ export function SiteHeader({ brand, navigation, activeTheme, onThemeChange }: Si
       <div className="header-inner">
         <a className="brand-link" href="#top" aria-label={`${brand}，返回顶部`}>
           {brand}
+          <span className="brand-status" aria-hidden="true" />
         </a>
 
         <nav className="desktop-nav" aria-label="主导航">
@@ -85,6 +88,11 @@ export function SiteHeader({ brand, navigation, activeTheme, onThemeChange }: Si
           </motion.nav>
         ) : null}
       </AnimatePresence>
+      <motion.span
+        className="scroll-progress"
+        style={reduceMotion ? undefined : { scaleX: progressScale }}
+        aria-hidden="true"
+      />
     </header>
   )
 }

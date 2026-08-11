@@ -24,8 +24,8 @@
     z-index: 2;
     margin-top: clamp(1.75rem, 4.5vh, 3.25rem);
     font-size: var(--fs-hero);
-    line-height: 1.06;
-    letter-spacing: -0.02em;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
   }
   .studio-hero-title-wrap { position: relative; z-index: 2; }
 
@@ -45,7 +45,12 @@
   .studio-hero-side .hero-summary { font-size: var(--fs-18); max-width: 30rem; }
   .studio-hero-side .hero-actions { margin-top: 1.9rem; display: flex; flex-wrap: wrap; gap: 0.8rem; }
 
-  .studio-hero-media { position: relative; min-width: 0; }
+  /* Hero media bleeds to the right viewport edge for a full-bleed composition */
+  .studio-hero-media {
+    position: relative;
+    min-width: 0;
+    margin-right: calc((var(--page) - 100vw) / 2);
+  }
   .studio-hero-media::before {
     position: absolute;
     inset: 0.9rem -0.9rem -0.9rem 0.9rem;
@@ -85,9 +90,12 @@
     align-items: start;
     padding: clamp(1.75rem, 3vw, 2.5rem) 0;
     border-bottom: var(--hairline);
-    transition: background-color var(--duration-micro) ease;
+    transition: background-color var(--duration-fluid) var(--ease-out), padding-inline var(--duration-fluid) var(--ease-snap);
   }
-  .studio-project-row:hover { background: var(--accent-08); }
+  .studio-project-row:hover {
+    padding-inline: clamp(0.75rem, 1.5vw, 1.5rem);
+    background: var(--accent-08);
+  }
   .studio-project-row .project-index {
     font-family: var(--theme-display-font);
     font-size: clamp(2.5rem, 3.6vw, 3.9rem);
@@ -170,6 +178,7 @@
 
   @media (max-width: 1050px) {
     .studio-hero-row { grid-template-columns: 1fr 1fr; }
+    .studio-hero-media { margin-right: 0; }
     .studio-process-grid { grid-template-columns: 1fr; }
     .studio-process-media .media-frame { min-height: 26rem; height: min(60vw, 30rem); }
     .studio-capability-cols { grid-template-columns: 1fr 1fr; }
