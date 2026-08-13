@@ -68,7 +68,7 @@
   }
   .nav-link:hover, .nav-link:focus-visible { color: var(--theme-text); background-size: 100% 1.5px; }
 
-  .desktop-theme-switcher { justify-self: end; }
+  .desktop-theme-switcher { justify-self: end; display: flex; align-items: center; gap: 0.6rem; }
 
   .theme-switcher {
     min-height: 2.75rem;

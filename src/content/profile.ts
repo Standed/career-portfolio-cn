@@ -15,7 +15,7 @@ export const profileConfig = {
   identity: {
     name: '西羊石AI视频',
     displayName: '西羊石',
-    descriptor: 'AI Content & Video',
+    descriptor: 'AI 内容与影像',
   },
 
   // EDIT HERE 3: 个人资料。未确认时保留 null。

@@ -1,11 +1,16 @@
-import { themePresets } from '../content/presets'
-import type { ThemeConfig, ThemeKey } from '../types/portfolio'
+import { careerToRole, roleKeys, themePresets } from '../content/presets'
+import type { CareerPresetKey, RoleKey, ThemeConfig, ThemeKey } from '../types/portfolio'
 
 export const themeKeys = ['studio', 'cinema', 'product', 'editorial'] as const satisfies readonly ThemeKey[]
 export const themeStorageKey = 'xiyangshi-portfolio-theme'
+export const roleStorageKey = 'xiyangshi-portfolio-role'
 
 export function isThemeKey(value: string | null): value is ThemeKey {
   return value !== null && themeKeys.some((key) => key === value)
+}
+
+export function isRoleKey(value: string | null): value is RoleKey {
+  return value !== null && (roleKeys as readonly string[]).some((key) => key === value)
 }
 
 export function resolveRuntimeTheme(fallback: ThemeKey): ThemeKey {
@@ -22,6 +27,34 @@ export function resolveRuntimeTheme(fallback: ThemeKey): ThemeKey {
   }
 
   return fallback
+}
+
+export function resolveRuntimeRole(fallback: CareerPresetKey): RoleKey {
+  if (typeof window === 'undefined') return careerToRole[fallback]
+
+  const queryRole = new URLSearchParams(window.location.search).get('role')
+  if (isRoleKey(queryRole)) return queryRole
+
+  try {
+    const storedRole = window.localStorage.getItem(roleStorageKey)
+    if (isRoleKey(storedRole)) return storedRole
+  } catch {
+    // Storage can be unavailable in private or locked-down browsing contexts.
+  }
+
+  return careerToRole[fallback]
+}
+
+export function persistRuntimeRole(key: RoleKey) {
+  try {
+    window.localStorage.setItem(roleStorageKey, key)
+  } catch {
+    // The URL remains the durable, shareable fallback.
+  }
+
+  const url = new URL(window.location.href)
+  url.searchParams.set('role', key)
+  window.history.replaceState(window.history.state, '', url)
 }
 
 export function getThemeConfig(key: ThemeKey, careerPreset: ThemeKey): ThemeConfig {

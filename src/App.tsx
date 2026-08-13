@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Lenis from 'lenis'
 import { useReducedMotion } from 'motion/react'
 import portfolioContent from './content/portfolio'
+import { roleNarratives } from './content/presets'
 import { Capabilities } from './components/Capabilities'
 import { ContactFooter } from './components/ContactFooter'
 import { Cursor } from './components/Cursor'
@@ -10,13 +11,15 @@ import { Marquee } from './components/Marquee'
 import { SelectedWork } from './components/SelectedWork'
 import { SiteHeader } from './components/SiteHeader'
 import { WorkProcess } from './components/WorkProcess'
-import { applyRuntimeTheme, getThemeConfig, persistRuntimeTheme, resolveRuntimeTheme } from './components/themeRuntime'
-import type { ThemeKey } from './types/portfolio'
+import { applyRuntimeTheme, getThemeConfig, persistRuntimeRole, persistRuntimeTheme, resolveRuntimeRole, resolveRuntimeTheme } from './components/themeRuntime'
+import type { RoleKey, ThemeKey } from './types/portfolio'
 
 function App() {
   const content = portfolioContent
   const [activeTheme, setActiveTheme] = useState<ThemeKey>(() => resolveRuntimeTheme(content.theme.id))
+  const [activeRole, setActiveRole] = useState<RoleKey>(() => resolveRuntimeRole(content.career.id))
   const runtimeTheme = getThemeConfig(activeTheme, content.career.id)
+  const role = roleNarratives[activeRole]
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
@@ -43,8 +46,16 @@ function App() {
     persistRuntimeTheme(theme)
   }
 
+  const changeRole = (nextRole: RoleKey) => {
+    setActiveRole(nextRole)
+    persistRuntimeRole(nextRole)
+    // 岗位切换时同步切到配套视觉主题，让差异立刻可见；之后仍可单独调整主题。
+    setActiveTheme(roleNarratives[nextRole].defaultTheme)
+    persistRuntimeTheme(roleNarratives[nextRole].defaultTheme)
+  }
+
   const marqueeItems = [
-    ...content.process.map((step) => step.title),
+    ...role.process.map((step) => step.title),
     ...content.capabilities.map((group) => group.title),
   ]
 
@@ -56,45 +67,48 @@ function App() {
         brand={content.brand.displayName}
         navigation={content.navigation}
         activeTheme={activeTheme}
+        activeRole={activeRole}
         onThemeChange={changeTheme}
+        onRoleChange={changeRole}
       />
 
       <main id="main-content">
         <Hero
+          key={`${activeRole}-${activeTheme}`}
           theme={activeTheme}
-          title={content.hero.title}
-          description={content.hero.description}
+          title={role.heroTitle}
+          description={role.heroDescription}
           primaryAction={content.hero.primaryAction}
           media={content.hero.media}
           supportingMedia={[content.processSection.media, content.contact.media]}
-          process={content.process}
-          descriptor={content.brand.descriptor}
+          process={role.process}
+          descriptor={role.descriptor}
         />
         <Marquee items={marqueeItems} label="工作方法与能力领域" />
         <SelectedWork
           theme={activeTheme}
           id={content.projectsSection.id}
-          title={content.projectsSection.title}
+          title={role.workSectionTitle}
           pendingLabel={content.projectsSection.pendingLabel}
-          narrativeLabels={content.projectNarrativeLabels}
+          narrativeLabels={role.projectNarrativeLabels}
           projects={content.projects}
         />
         <WorkProcess
           theme={activeTheme}
           id={content.processSection.id}
-          title={content.processSection.title}
-          steps={content.process}
+          title={role.processSectionTitle}
+          steps={role.process}
           media={content.processSection.media}
         />
         <Capabilities
           theme={activeTheme}
           id={content.capabilitiesSection.id}
-          title={content.capabilitiesSection.title}
+          title={role.capabilitiesSectionTitle}
           groups={content.capabilities}
         />
         <ContactFooter
           id={content.contact.id}
-          heading={content.contact.heading}
+          heading={role.contactHeading}
           fallback={content.contact.fallback}
           action={content.contact.action}
           channels={[

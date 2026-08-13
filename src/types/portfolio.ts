@@ -4,6 +4,31 @@ export type CareerPresetKey = 'studio' | 'cinema' | 'product' | 'editorial'
 
 export type ThemeKey = CareerPresetKey
 
+export type RoleKey = 'designer' | 'film' | 'product' | 'operations'
+
+export type HeroTitleCopy = {
+  readonly fullText: string
+  readonly prefix: string
+  readonly accent: string
+  readonly suffix: string
+}
+
+export type RoleNarrative = {
+  readonly id: RoleKey
+  readonly name: string
+  readonly audience: string
+  readonly defaultTheme: ThemeKey
+  readonly descriptor: string
+  readonly heroTitle: HeroTitleCopy
+  readonly heroDescription: readonly string[]
+  readonly workSectionTitle: string
+  readonly processSectionTitle: string
+  readonly capabilitiesSectionTitle: string
+  readonly contactHeading: string
+  readonly process: readonly ProcessStep[]
+  readonly projectNarrativeLabels: ProjectNarrativeLabels
+}
+
 export type ProjectNarrativeLabels = {
   readonly context: string
   readonly role: string

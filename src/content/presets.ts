@@ -2,9 +2,140 @@ import type {
   CareerPresetConfig,
   CareerPresetKey,
   ProjectNarrativeLabels,
+  RoleKey,
+  RoleNarrative,
   ThemeKey,
   ThemeConfig,
 } from '../types/portfolio'
+
+/**
+ * 四种岗位叙事。同一份真实项目内容，按目标岗位重组表达：
+ * 首屏文案、章节标题、方法步骤、项目叙事标签都随岗位切换。
+ */
+export const roleNarratives = {
+  designer: {
+    id: 'designer',
+    name: '设计师',
+    audience: '视觉、品牌与创意岗位',
+    defaultTheme: 'studio',
+    descriptor: 'AI 内容 · 视觉 · 工作流',
+    heroTitle: {
+      fullText: '把 AI 能力，做成看得见的设计与内容。',
+      prefix: '把 ',
+      accent: 'AI',
+      suffix: ' 能力，做成看得见的设计与内容。',
+    },
+    heroDescription: [
+      'AI 辅助的视觉与内容设计实践。',
+      '从概念到交付，保留可编辑的源文件。',
+    ],
+    workSectionTitle: '精选作品',
+    processSectionTitle: '我如何工作',
+    capabilitiesSectionTitle: '能力与工具',
+    contactHeading: '如果你在找一个能把 AI 真正做成结果的人，我们可以聊聊。',
+    process: [
+      { index: '01', title: '需求拆解', description: '把目标与约束拆成可验证的问题' },
+      { index: '02', title: '概念方向', description: '快速给出多个可比较的方向' },
+      { index: '03', title: '设计制作', description: '小步试做，逐轮校正细节' },
+      { index: '04', title: '交付复盘', description: '保留源文件与复盘记录' },
+    ],
+    projectNarrativeLabels: { context: '项目背景', role: '我的职责', process: '设计方法', outcome: '成果' },
+  },
+  film: {
+    id: 'film',
+    name: '影视制作',
+    audience: '导演、剪辑、制片与视频岗位',
+    defaultTheme: 'cinema',
+    descriptor: 'AI 影像 · 短剧 · 后期',
+    heroTitle: {
+      fullText: '用 AI 工作流，做出能交付的影像。',
+      prefix: '用 ',
+      accent: 'AI 工作流',
+      suffix: '，做出能交付的影像。',
+    },
+    heroDescription: [
+      'AI 短剧与视频内容的策划、制作与质控。',
+      '每一版都保留可修改的工程文件。',
+    ],
+    workSectionTitle: '作品与项目',
+    processSectionTitle: '制作流程',
+    capabilitiesSectionTitle: '制作能力',
+    contactHeading: '如果你有影像或短剧项目需要落地，我们可以聊聊。',
+    process: [
+      { index: '01', title: '立项与分镜', description: '把故事拆成可制作的镜头清单' },
+      { index: '02', title: '素材生成', description: '按分镜生成与筛选可用素材' },
+      { index: '03', title: '剪辑与质控', description: '可编辑剪辑，机器与人工双重校验' },
+      { index: '04', title: '交付存档', description: '成片、工程与素材库一并交付' },
+    ],
+    projectNarrativeLabels: { context: '项目背景', role: '担任职务', process: '制作过程', outcome: '交付成果' },
+  },
+  product: {
+    id: 'product',
+    name: '产品经理',
+    audience: '产品、项目与用户研究岗位',
+    defaultTheme: 'product',
+    descriptor: 'AI 产品 · 工作流 · 决策',
+    heroTitle: {
+      fullText: '把模糊的 AI 需求，收敛成能落地的方案。',
+      prefix: '把模糊的 ',
+      accent: 'AI 需求',
+      suffix: '，收敛成能落地的方案。',
+    },
+    heroDescription: [
+      '从问题定义到交付复盘的产品实践。',
+      '用证据和约束做决策，而不是凭感觉。',
+    ],
+    workSectionTitle: '产品案例',
+    processSectionTitle: '我如何推进',
+    capabilitiesSectionTitle: '能力矩阵',
+    contactHeading: '如果你需要一个能把模糊需求做成方案的人，我们可以聊聊。',
+    process: [
+      { index: '01', title: '洞察与定义', description: '把模糊诉求收敛成清晰的问题' },
+      { index: '02', title: '方案与取舍', description: '在约束中比较方案并做出取舍' },
+      { index: '03', title: '推进与验证', description: '小步落地，用证据验证假设' },
+      { index: '04', title: '复盘与迭代', description: '记录决策依据，持续修正' },
+    ],
+    projectNarrativeLabels: { context: '背景', role: '我的决策', process: '取舍', outcome: '影响' },
+  },
+  operations: {
+    id: 'operations',
+    name: '内容运营',
+    audience: '内容、品牌、市场与运营岗位',
+    defaultTheme: 'editorial',
+    descriptor: '内容 · 增长 · 复盘',
+    heroTitle: {
+      fullText: '让内容系统，持续产生可复用的结果。',
+      prefix: '让 ',
+      accent: '内容系统',
+      suffix: '，持续产生可复用的结果。',
+    },
+    heroDescription: [
+      '选题、制作、发布与数据复盘的完整闭环。',
+      '每一篇内容都沉淀为可复用的资产。',
+    ],
+    workSectionTitle: '内容与项目',
+    processSectionTitle: '运营方法',
+    capabilitiesSectionTitle: '能力范围',
+    contactHeading: '如果你在找一个能把内容做成系统的人，我们可以聊聊。',
+    process: [
+      { index: '01', title: '选题与定位', description: '从读者与数据出发确定方向' },
+      { index: '02', title: '制作与包装', description: '标题、结构与视觉的一体化打磨' },
+      { index: '03', title: '发布与推广', description: '分渠道发布并记录投放细节' },
+      { index: '04', title: '数据与复盘', description: '扣除投放看真实表现，沉淀方法' },
+    ],
+    projectNarrativeLabels: { context: '目标', role: '策略', process: '执行', outcome: '结果' },
+  },
+} as const satisfies Record<RoleKey, RoleNarrative>
+
+export const roleKeys = ['designer', 'film', 'product', 'operations'] as const satisfies readonly RoleKey[]
+
+/** 旧的 build-time 职业预设键映射到运行时岗位键。 */
+export const careerToRole = {
+  studio: 'designer',
+  cinema: 'film',
+  product: 'product',
+  editorial: 'operations',
+} as const satisfies Record<CareerPresetKey, RoleKey>
 
 export const careerPresetNarratives = {
   studio: {

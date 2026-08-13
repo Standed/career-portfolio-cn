@@ -2,17 +2,20 @@ import { List, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 'motion/react'
 import { useEffect, useState } from 'react'
 import type { NavigationItem } from '../types/portfolio'
-import type { ThemeKey } from '../types/portfolio'
+import type { RoleKey, ThemeKey } from '../types/portfolio'
+import { RoleSwitcher } from './RoleSwitcher'
 import { ThemeSwitcher } from './ThemeSwitcher'
 
 type SiteHeaderProps = {
   brand: string
   navigation: readonly NavigationItem[]
   activeTheme: ThemeKey
+  activeRole: RoleKey
   onThemeChange: (theme: ThemeKey) => void
+  onRoleChange: (role: RoleKey) => void
 }
 
-export function SiteHeader({ brand, navigation, activeTheme, onThemeChange }: SiteHeaderProps) {
+export function SiteHeader({ brand, navigation, activeTheme, activeRole, onThemeChange, onRoleChange }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll()
@@ -46,6 +49,7 @@ export function SiteHeader({ brand, navigation, activeTheme, onThemeChange }: Si
         </nav>
 
         <div className="desktop-theme-switcher">
+          <RoleSwitcher value={activeRole} onChange={onRoleChange} />
           <ThemeSwitcher value={activeTheme} onChange={onThemeChange} />
         </div>
 
@@ -83,6 +87,7 @@ export function SiteHeader({ brand, navigation, activeTheme, onThemeChange }: Si
                   {item.label}
                 </a>
               ))}
+              <RoleSwitcher value={activeRole} onChange={onRoleChange} />
               <ThemeSwitcher value={activeTheme} onChange={onThemeChange} />
             </div>
           </motion.nav>
