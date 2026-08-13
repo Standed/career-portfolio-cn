@@ -1,6 +1,10 @@
 @layer themes {
   /* Studio: cool gallery, outlined display type, Swiss hairline index. */
-  [data-theme='studio'] { --grain-opacity: 0.05; }
+  [data-theme='studio'] {
+    --grain-opacity: 0.05;
+    --shine-base: transparent;
+    --shine-band: rgb(255 255 255 / 0.55);
+  }
 
   [data-theme='studio'] .hero-title { font-weight: 700; }
   [data-theme='studio'] .hero-title .accent-text {

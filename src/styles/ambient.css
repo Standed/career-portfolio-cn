@@ -1,0 +1,101 @@
+@layer components {
+  /* Ambient background layers: fixed, below content, transform/opacity only. */
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .site-shell { position: relative; z-index: 1; }
+
+  .ambient-blob, .ambient-halo, .ambient-beam {
+    position: absolute;
+    display: block;
+    will-change: transform;
+  }
+
+  /* Studio: two cobalt haze blobs drifting on a 55-58s loop. */
+  .ambient-blob {
+    width: 46vmax;
+    height: 46vmax;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, var(--theme-accent) 0%, transparent 62%);
+    filter: blur(80px);
+    opacity: 0.3;
+  }
+  .ambient-blob-a {
+    top: -14vmax;
+    left: -10vmax;
+    animation: ambient-drift-a 55s ease-in-out infinite;
+  }
+  .ambient-blob-b {
+    right: -12vmax;
+    bottom: -16vmax;
+    opacity: 0.22;
+    animation: ambient-drift-b 58s ease-in-out infinite;
+  }
+  @keyframes ambient-drift-a {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    35% { transform: translate3d(6vw, 5vh, 0); }
+    70% { transform: translate3d(-3vw, 9vh, 0); }
+  }
+  @keyframes ambient-drift-b {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    40% { transform: translate3d(-7vw, -5vh, 0); }
+    75% { transform: translate3d(3vw, -9vh, 0); }
+  }
+
+  /* Cinema: one slow chartreuse light beam sweeping every 46s. */
+  .ambient-beam {
+    top: -25%;
+    bottom: -25%;
+    left: 0;
+    width: 32vw;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--theme-accent) 10%, transparent) 38%,
+      color-mix(in srgb, var(--theme-accent) 22%, transparent) 50%,
+      color-mix(in srgb, var(--theme-accent) 10%, transparent) 62%,
+      transparent 100%
+    );
+    filter: blur(28px);
+    mix-blend-mode: screen;
+    opacity: 0.55;
+    transform: skewX(-14deg) translate3d(-45vw, 0, 0);
+    animation: ambient-beam-sweep 46s linear infinite;
+  }
+  @keyframes ambient-beam-sweep {
+    0% { transform: skewX(-14deg) translate3d(-45vw, 0, 0); }
+    100% { transform: skewX(-14deg) translate3d(145vw, 0, 0); }
+  }
+
+  /* Product: soft fine grid + a faint emerald halo breathing slowly. */
+  .ambient-product {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--theme-text) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--theme-text) 5%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+  .ambient-halo {
+    width: 52vmax;
+    height: 52vmax;
+    top: 8%;
+    right: -18vmax;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, var(--theme-accent) 0%, transparent 60%);
+    filter: blur(90px);
+    opacity: 0.16;
+    animation: ambient-halo-breathe 14s ease-in-out infinite;
+  }
+  @keyframes ambient-halo-breathe {
+    0%, 100% { transform: scale(1); opacity: 0.13; }
+    50% { transform: scale(1.1); opacity: 0.2; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ambient-blob, .ambient-halo, .ambient-beam { animation: none; will-change: auto; }
+    .ambient-beam { display: none; }
+  }
+}

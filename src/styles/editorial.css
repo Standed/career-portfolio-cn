@@ -1,6 +1,9 @@
 @layer themes {
   /* Editorial: paper white, ink rules, magazine serif hierarchy. */
-  [data-theme='editorial'] { --grain-opacity: 0.05; }
+  [data-theme='editorial'] {
+    --grain-opacity: 0.05;
+    --shine-band: color-mix(in srgb, var(--theme-accent) 42%, #171411);
+  }
 
   .editorial-hero { border-bottom: var(--hairline); }
   .editorial-hero-shell { width: var(--page); margin-inline: auto; }

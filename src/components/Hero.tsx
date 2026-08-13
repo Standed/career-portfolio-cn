@@ -187,6 +187,7 @@ function StudioHero({ title, description, primaryAction, media, process, descrip
                 fetchPriority="high"
                 style={parallax.style ? { ...parallax.style, scale: 1.14 } : undefined}
               />
+              <span className="frame-flow" aria-hidden="true" />
             </motion.figure>
           </div>
         </div>

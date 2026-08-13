@@ -3,6 +3,8 @@ import { useState } from 'react'
 import type { ProjectEntry, ProjectNarrativeLabels, ThemeKey } from '../types/portfolio'
 import { ProjectDialog } from './ProjectDialog'
 import { Reveal } from './Reveal'
+import { SpotlightArticle } from './SpotlightArticle'
+import { TiltCard } from './TiltCard'
 
 type SelectedWorkProps = {
   theme: ThemeKey
@@ -34,11 +36,11 @@ function StudioWork({ id, title, projects, onOpen }: SectionProps) {
   return (
     <section className="work-section studio-work" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
-        <Reveal><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
+        <Reveal variant="blur"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
         <div className="studio-work-list">
           {projects.map((project, index) => (
             <Reveal delay={index * 0.06} key={project.slug}>
-              <article className="studio-project-row">
+              <SpotlightArticle className="studio-project-row">
                 <span className="project-index" aria-hidden="true">{project.index}</span>
                 <div className="project-body">
                   <h3 className="project-title">{project.title}</h3>
@@ -47,7 +49,7 @@ function StudioWork({ id, title, projects, onOpen }: SectionProps) {
                   <p className="project-status">{project.statusLabel}</p>
                 </div>
                 <DetailButton project={project} onOpen={onOpen} />
-              </article>
+              </SpotlightArticle>
             </Reveal>
           ))}
         </div>
@@ -60,11 +62,11 @@ function CinemaWork({ id, title, projects, onOpen }: SectionProps) {
   return (
     <section className="work-section cinema-work" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
-        <Reveal><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
+        <Reveal variant="blur"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
         <div className="cinema-work-list">
           {projects.map((project, index) => (
             <Reveal className={index === 0 ? 'cinema-slate cinema-slate-lead' : 'cinema-slate'} delay={index * 0.05} variant="wipe" key={project.slug}>
-              <article>
+              <TiltCard>
                 <p className="cinema-slate-meta">
                   <span className="project-category">{project.category}</span>
                   <span>{project.statusLabel}</span>
@@ -72,7 +74,7 @@ function CinemaWork({ id, title, projects, onOpen }: SectionProps) {
                 <h3 className="project-title">{project.title}</h3>
                 <p className="project-summary">{project.summary}</p>
                 <DetailButton project={project} onOpen={onOpen} />
-              </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
@@ -85,11 +87,11 @@ function ProductWork({ id, title, projects, onOpen }: SectionProps) {
   return (
     <section className="work-section product-work" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
-        <Reveal><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
+        <Reveal variant="blur"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
         <div className="product-case-list">
           {projects.map((project, index) => (
             <Reveal delay={index * 0.05} key={project.slug}>
-              <article className="product-case">
+              <TiltCard className="product-case">
                 <div className="product-case-rail">
                   <span className="project-index">{project.index}</span>
                   <p className="project-category">{project.category}</p>
@@ -108,7 +110,7 @@ function ProductWork({ id, title, projects, onOpen }: SectionProps) {
                 <div className="product-case-action">
                   <DetailButton project={project} onOpen={onOpen} />
                 </div>
-              </article>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
@@ -121,7 +123,7 @@ function EditorialWork({ id, title, projects, onOpen }: SectionProps) {
   return (
     <section className="work-section editorial-work" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
-        <Reveal className="editorial-work-head"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
+        <Reveal className="editorial-work-head" variant="blur"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
         <div className="editorial-work-grid">
           <nav className="editorial-index" aria-label="作品索引">
             <ol>

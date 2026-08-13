@@ -4,6 +4,7 @@ import { useReducedMotion } from 'motion/react'
 import portfolioContent from './content/portfolio'
 import { roleNarratives } from './content/presets'
 import { AboutSection } from './components/AboutSection'
+import { AmbientBackground } from './components/AmbientBackground'
 import { Capabilities } from './components/Capabilities'
 import { ContactFooter } from './components/ContactFooter'
 import { Cursor } from './components/Cursor'
@@ -67,7 +68,9 @@ function App() {
   ]
 
   return (
-    <div className="site-shell">
+    <>
+      <AmbientBackground theme={activeTheme} />
+      <div className="site-shell">
       <a className="skip-link" href="#main-content">跳到主要内容</a>
       <Cursor />
       <SiteHeader
@@ -136,7 +139,8 @@ function App() {
           footerDescriptor={content.footer.descriptor}
         />
       </main>
-    </div>
+      </div>
+    </>
   )
 }
 

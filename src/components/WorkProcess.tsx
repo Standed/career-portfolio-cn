@@ -1,4 +1,4 @@
-﻿import { motion, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import type { PropsWithChildren } from 'react'
 import type { MediaAsset, ProcessStep, ThemeKey } from '../types/portfolio'
 import { useParallaxY } from './Parallax'
@@ -14,15 +14,13 @@ type WorkProcessProps = {
 
 function StepReveal({ children, delay = 0, variant = 'rise' }: PropsWithChildren<{ delay?: number; variant?: 'rise' | 'wipe' | 'mask' }>) {
   const reduceMotion = useReducedMotion()
-  const initial = variant === 'wipe'
-    ? { opacity: 0, clipPath: 'inset(0 100% 0 0)' }
-    : variant === 'mask'
-      ? { opacity: 0, clipPath: 'inset(0 0 100% 0)' }
-      : { opacity: 0, y: 22 }
+  // Keep the fully-clipped keyframe out of initial: a self clip-path of inset(100%)
+  // gives Chromium's IntersectionObserver a zero ratio and deadlocks whileInView.
+  const initial = { opacity: 0, ...(variant === 'rise' ? { y: 22 } : {}) }
   const shown = variant === 'wipe'
-    ? { opacity: 1, clipPath: 'inset(0 0% 0 0)' }
+    ? { opacity: 1, clipPath: ['inset(0% 100% 0% 0%)', 'inset(0% 0% 0% 0%)'] }
     : variant === 'mask'
-      ? { opacity: 1, clipPath: 'inset(0 0 0% 0)' }
+      ? { opacity: 1, clipPath: ['inset(0% 0% 100% 0%)', 'inset(0% 0% 0% 0%)'] }
       : { opacity: 1, y: 0 }
 
   return (
@@ -43,7 +41,7 @@ function StudioProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'them
     <section className="process-section studio-process" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell studio-process-grid">
         <div className="studio-process-copy">
-          <Reveal><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
+          <Reveal variant="blur"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
           <ol>
             {steps.map((step, index) => (
               <StepReveal delay={index * 0.05} key={step.title}>
@@ -63,6 +61,7 @@ function StudioProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'them
               height="1086"
               style={parallax.style ? { ...parallax.style, scale: 1.14 } : undefined}
             />
+            <span className="frame-flow" aria-hidden="true" />
           </figure>
         </Reveal>
       </div>
@@ -75,7 +74,7 @@ function CinemaProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'them
   return (
     <section className="process-section cinema-process" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
-        <Reveal><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
+        <Reveal variant="blur"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
         <div className="cinema-process-board">
           <Reveal className="cinema-process-media-wrap" variant="wipe">
             <figure className="cinema-process-media" ref={parallax.ref}>
@@ -87,6 +86,7 @@ function CinemaProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'them
                 height="1086"
                 style={parallax.style ? { ...parallax.style, scale: 1.14 } : undefined}
               />
+              <span className="frame-flow" aria-hidden="true" />
             </figure>
           </Reveal>
           <ol className="cinema-process-cuts">
@@ -109,7 +109,7 @@ function ProductProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'the
   return (
     <section className="process-section product-process" id={id} aria-labelledby={`${id}-title`}>
       <div className="section-shell">
-        <Reveal><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
+        <Reveal variant="blur"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
         <div className="product-process-track">
           <ol>
             {steps.map((step, index) => (
@@ -131,6 +131,7 @@ function ProductProcess({ id, title, steps, media }: Omit<WorkProcessProps, 'the
               height="1086"
               style={parallax.style ? { ...parallax.style, scale: 1.14 } : undefined}
             />
+            <span className="frame-flow" aria-hidden="true" />
           </figure>
         </Reveal>
       </div>
@@ -148,7 +149,7 @@ function EditorialProcess({ id, title, steps, media }: Omit<WorkProcessProps, 't
           </figure>
         </Reveal>
         <div className="editorial-process-copy">
-          <Reveal><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
+          <Reveal variant="blur"><h2 className="section-heading" id={`${id}-title`}>{title}</h2></Reveal>
           <ol>
             {steps.map((step, index) => (
               <StepReveal delay={index * 0.05} variant="mask" key={step.title}>

@@ -1,0 +1,96 @@
+@layer components {
+  /* Pointer spotlight: radial light following the cursor, hover-only. */
+  .spotlight { position: relative; }
+  .spotlight::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    content: "";
+    border-radius: inherit;
+    background: radial-gradient(
+      230px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      var(--accent-14),
+      transparent 68%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .spotlight > * { position: relative; z-index: 1; }
+  .spotlight:hover::before { opacity: 1; }
+
+  /* Hero accent word: slow shine sweep, one pass in 3.5s then rest. */
+  .hero-title .accent-text {
+    color: transparent;
+    background-image: linear-gradient(
+      110deg,
+      var(--shine-base, var(--theme-accent)) 40%,
+      var(--shine-band, color-mix(in srgb, var(--theme-accent) 45%, #ffffff)) 50%,
+      var(--shine-base, var(--theme-accent)) 60%
+    );
+    background-size: 280% 100%;
+    background-position: 130% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-title .accent-text { animation: accent-shine 6.4s ease-in-out infinite; }
+  }
+  @keyframes accent-shine {
+    0% { background-position: 130% 0; }
+    55% { background-position: -30% 0; }
+    100% { background-position: -30% 0; }
+  }
+
+  /* Primary button: soft accent halo at rest, stronger on hover. */
+  .button-primary {
+    box-shadow: 0 4px 18px color-mix(in srgb, var(--theme-accent) 16%, transparent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .button-primary { animation: button-halo 4.6s ease-in-out infinite alternate; }
+    .button-primary:hover { animation: none; }
+  }
+  @keyframes button-halo {
+    from { box-shadow: 0 4px 16px color-mix(in srgb, var(--theme-accent) 14%, transparent); }
+    to { box-shadow: 0 6px 26px color-mix(in srgb, var(--theme-accent) 25%, transparent); }
+  }
+  .button-primary:hover {
+    box-shadow: 0 10px 32px color-mix(in srgb, var(--theme-accent) 34%, transparent);
+  }
+
+  /* Media frames: accent gradient travelling along the 1px border ring. */
+  .frame-flow {
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--flow-angle, 0deg),
+      color-mix(in srgb, var(--theme-accent) 26%, transparent) 0deg,
+      var(--theme-accent) 10%,
+      color-mix(in srgb, var(--theme-accent) 26%, transparent) 24%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .frame-flow { animation: frame-flow-spin 9s linear infinite; }
+  }
+  @keyframes frame-flow-spin {
+    to { --flow-angle: 360deg; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spotlight::before { display: none; }
+  }
+}
+
+/* @property registration: browsers without it keep the static ring. */
+@property --flow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
