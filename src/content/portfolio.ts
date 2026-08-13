@@ -105,6 +105,7 @@ export const portfolioContent = {
     ),
   },
   navigation: [
+    { label: '关于', href: '#about' },
     { label: '作品', href: '#work' },
     { label: '方法', href: '#process' },
     { label: '能力', href: '#capabilities' },

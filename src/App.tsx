@@ -3,6 +3,7 @@ import Lenis from 'lenis'
 import { useReducedMotion } from 'motion/react'
 import portfolioContent from './content/portfolio'
 import { roleNarratives } from './content/presets'
+import { AboutSection } from './components/AboutSection'
 import { Capabilities } from './components/Capabilities'
 import { ContactFooter } from './components/ContactFooter'
 import { Cursor } from './components/Cursor'
@@ -16,8 +17,14 @@ import type { RoleKey, ThemeKey } from './types/portfolio'
 
 function App() {
   const content = portfolioContent
-  const [activeTheme, setActiveTheme] = useState<ThemeKey>(() => resolveRuntimeTheme(content.theme.id))
   const [activeRole, setActiveRole] = useState<RoleKey>(() => resolveRuntimeRole(content.career.id))
+  const [activeTheme, setActiveTheme] = useState<ThemeKey>(() => {
+    const params = new URLSearchParams(window.location.search)
+    // 显式的主题参数优先；只有岗位参数时，跟随岗位的配套主题，让分享链接立刻呈现差异。
+    if (params.get('theme')) return resolveRuntimeTheme(content.theme.id)
+    if (params.get('role')) return roleNarratives[activeRole].defaultTheme
+    return resolveRuntimeTheme(content.theme.id)
+  })
   const runtimeTheme = getThemeConfig(activeTheme, content.career.id)
   const role = roleNarratives[activeRole]
   const reduceMotion = useReducedMotion()
@@ -85,6 +92,14 @@ function App() {
           descriptor={role.descriptor}
         />
         <Marquee items={marqueeItems} label="工作方法与能力领域" />
+        <AboutSection
+          id="about"
+          title="关于我"
+          bio={role.about}
+          targetRole={content.profile.targetRole}
+          workHistory={content.profile.workHistory}
+          education={content.profile.education}
+        />
         <SelectedWork
           theme={activeTheme}
           id={content.projectsSection.id}

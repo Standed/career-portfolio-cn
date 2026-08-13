@@ -21,6 +21,7 @@ export type RoleNarrative = {
   readonly descriptor: string
   readonly heroTitle: HeroTitleCopy
   readonly heroDescription: readonly string[]
+  readonly about: readonly string[]
   readonly workSectionTitle: string
   readonly processSectionTitle: string
   readonly capabilitiesSectionTitle: string

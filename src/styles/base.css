@@ -410,4 +410,59 @@
     .marquee-track { animation: none; }
     .brand-status::after { animation: none; opacity: 0; }
   }
+
+  /* About: bio + optional timeline, adapts to each theme via tokens */
+  .about-section { border-top: var(--hairline); padding-block: var(--section-space); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .about-main { min-width: 0; }
+  .about-paragraph {
+    margin-top: clamp(1.25rem, 2.5vw, 1.9rem);
+    max-width: 40rem;
+    font-size: var(--fs-24);
+    line-height: 1.75;
+    letter-spacing: -0.005em;
+    text-wrap: pretty;
+  }
+  .about-paragraph + .about-paragraph { color: var(--text-soft); font-size: var(--fs-18); }
+  .about-target {
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    font-size: var(--fs-16);
+  }
+  .about-target-label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-12);
+    letter-spacing: 0.1em;
+    color: var(--theme-accent);
+  }
+  .about-timeline { min-width: 0; border-top: 2px solid var(--theme-text); padding-top: 0.4rem; }
+  .about-history li {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-block: 1.1rem;
+    border-bottom: var(--hairline);
+  }
+  .about-period {
+    font-family: var(--font-mono);
+    font-size: var(--fs-12);
+    color: var(--text-soft);
+    letter-spacing: 0.04em;
+  }
+  .about-history h3 { font-size: var(--fs-16); font-weight: 650; }
+  .about-org { color: var(--text-soft); font-size: var(--fs-14); margin-top: 0.15rem; }
+  .about-note { color: var(--text-soft); font-size: var(--fs-14); margin-top: 0.4rem; line-height: 1.7; }
+  .about-education { margin-top: 1.5rem; }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-history li { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
 }

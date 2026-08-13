@@ -29,6 +29,10 @@ export const roleNarratives = {
       'AI 辅助的视觉与内容设计实践。',
       '从概念到交付，保留可编辑的源文件。',
     ],
+    about: [
+      '我相信好的设计始于清晰的问题。围绕品牌视觉、界面体验与内容设计工作，习惯把每一次交付都沉淀为可复用的方法与规范。',
+      '工具会变，判断不会。AI 让探索的成本变低，而最终的品质仍取决于打磨的颗粒度。',
+    ],
     workSectionTitle: '精选作品',
     processSectionTitle: '我如何工作',
     capabilitiesSectionTitle: '能力与工具',
@@ -56,6 +60,10 @@ export const roleNarratives = {
     heroDescription: [
       'AI 短剧与视频内容的策划、制作与质控。',
       '每一版都保留可修改的工程文件。',
+    ],
+    about: [
+      '我专注影像的完整链路：从分镜到成片，从素材管理到质量控制。可编辑的工程文件和可复用的流程，与画面本身一样重要。',
+      'AI 让影像制作的门槛变低，而观众的耐心没有变多，所以每一秒都要经得起回看。',
     ],
     workSectionTitle: '作品与项目',
     processSectionTitle: '制作流程',
@@ -85,6 +93,10 @@ export const roleNarratives = {
       '从问题定义到交付复盘的产品实践。',
       '用证据和约束做决策，而不是凭感觉。',
     ],
+    about: [
+      '我习惯从模糊的需求出发，把问题定义清楚再动手。关注约束、证据与取舍，把每一次决策的依据记录下来，让方案经得起复盘。',
+      'AI 是放大器：方向对了事半功倍，方向错了只会更快地走错路。',
+    ],
     workSectionTitle: '产品案例',
     processSectionTitle: '我如何推进',
     capabilitiesSectionTitle: '能力矩阵',
@@ -112,6 +124,10 @@ export const roleNarratives = {
     heroDescription: [
       '选题、制作、发布与数据复盘的完整闭环。',
       '每一篇内容都沉淀为可复用的资产。',
+    ],
+    about: [
+      '我把内容当作长期资产来经营：选题、制作、发布、复盘，每一步都留下可复用的沉淀。比起单次的爆发，我更在意持续稳定的增长。',
+      '数据用来说明问题，而不是装饰成绩。投放带来的部分，我会单独标注。',
     ],
     workSectionTitle: '内容与项目',
     processSectionTitle: '运营方法',
